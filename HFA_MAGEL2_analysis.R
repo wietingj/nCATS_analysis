@@ -15,8 +15,39 @@ methy_calls <- c("/path/to/ID01_methylation_calls.tsv",
                  "/path/to/ID05_methylation_calls.tsv",
                  "/path/to/ID06_methylation_calls.tsv",
                  "/path/to/ID07_methylation_calls.tsv",
-                 "/path/to/ID08_methylation_calls.tsv")
-# ... to be continued ID09-ID40 ...
+                 "/path/to/ID08_methylation_calls.tsv",
+                 "/path/to/ID09_methylation_calls.tsv",
+                 "/path/to/ID10_methylation_calls.tsv",
+                 "/path/to/ID11_methylation_calls.tsv",
+                 "/path/to/ID12_methylation_calls.tsv",
+                 "/path/to/ID13_methylation_calls.tsv",
+                 "/path/to/ID14_methylation_calls.tsv",
+                 "/path/to/ID15_methylation_calls.tsv",
+                 "/path/to/ID16_methylation_calls.tsv",
+                 "/path/to/ID17_methylation_calls.tsv",
+                 "/path/to/ID18_methylation_calls.tsv",
+                 "/path/to/ID19_methylation_calls.tsv",
+                 "/path/to/ID20_methylation_calls.tsv",
+                 "/path/to/ID21_methylation_calls.tsv",
+                 "/path/to/ID22_methylation_calls.tsv",
+                 "/path/to/ID23_methylation_calls.tsv",
+                 "/path/to/ID24_methylation_calls.tsv",
+                 "/path/to/ID25_methylation_calls.tsv",
+                 "/path/to/ID26_methylation_calls.tsv",
+                 "/path/to/ID27_methylation_calls.tsv",
+                 "/path/to/ID28_methylation_calls.tsv",
+                 "/path/to/ID29_methylation_calls.tsv",
+                 "/path/to/ID30_methylation_calls.tsv",
+                 "/path/to/ID31_methylation_calls.tsv",
+                 "/path/to/ID32_methylation_calls.tsv",
+                 "/path/to/ID33_methylation_calls.tsv",
+                 "/path/to/ID34_methylation_calls.tsv",
+                 "/path/to/ID35_methylation_calls.tsv",
+                 "/path/to/ID36_methylation_calls.tsv",
+                 "/path/to/ID37_methylation_calls.tsv",
+                 "/path/to/ID38_methylation_calls.tsv",
+                 "/path/to/ID39_methylation_calls.tsv",
+                 "/path/to/ID40_methylation_calls.tsv")
 
 create_tabix_file(methy_calls, methy_tabix)
 
@@ -67,10 +98,6 @@ sample_anno <- data.frame(sample, group, stringsAsFactors = FALSE)
 
 nmeth_results <- NanoMethResult(methy_tabix, sample_anno, hg38_exontable)
 
-BSSeq_nmeth_results <- methy_to_bsseq(nmeth_results, out_folder = tempdir())
-
-BSSeq_nmeth_results <- methy_to_bsseq(nmeth_results)
-
 #Basic plot MAGEL2
 # guides 23639316 23651466
 plot_region(
@@ -88,6 +115,8 @@ plot_region(
   palette = ggplot2::scale_colour_brewer(palette = "Set1"),
   line_size = 1
 )
+
+BSSeq_nmeth_results <- methy_to_bsseq(nmeth_results, out_folder = tempdir())
 
 #subset via BSseq function subsetByOverlaps (can either be BSseq or GRanges)
 BSSeq_MAGEL2subset <- subsetByOverlaps(BSSeq_nmeth_results, GRanges(seqnames = "chr15",
@@ -126,7 +155,7 @@ dml_MAGEL2_hfaonly_sex <- DMLtest(BSSeq_MAGEL2subset, group1 = malegroup,
                     smoothing=T, 
                     ncores=1)
 dml_MAGEL2_sex_hfaonly <- callDML(dml_MAGEL2_hfaonly_sex, delta = 0.05, p.threshold = 0.05)
-dmr_MAGEL2_sex_hfaonly <- callDMR(dml_MAGEL2_hfaonly_sex)
+dmr_MAGEL2_sex_hfaonly <- callDMR(dml_MAGEL2_hfaonly_sex, delta = 0.05, p.threshold = 0.05)
 
 #coverage
 #whole MAGEL2 
